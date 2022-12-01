@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EightLamps
 {
@@ -19,6 +21,9 @@ namespace EightLamps
 
         private static int[] LampsAfterXDays(int[] lamps, int days)
         {
+            var casheOfOldResults = new List<int[]>();
+            casheOfOldResults.Add(lamps);
+
             while (days > 0)
             {
                 var temp = new int[8];
@@ -40,6 +45,15 @@ namespace EightLamps
                 }
 
                 days--;
+
+                if (Enumerable.SequenceEqual(casheOfOldResults.First(), temp))
+                {
+                    return casheOfOldResults[days % casheOfOldResults.Count];
+                }
+                else
+                {
+                    casheOfOldResults.Add(temp);
+                }
 
                 Console.WriteLine("With imput " + days + " days before end " + String.Join(",", temp));
 
